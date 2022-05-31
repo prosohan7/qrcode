@@ -74,3 +74,4 @@ function pqrc_display_height(){
 }
 
 add_action( "admin_init", "pqrc_settings_init" );
+// this is comment
