@@ -79,8 +79,9 @@ function pqrc_display_checkbocgroup_field(){
     
     foreach( $countries as $country ) {
         $selected = '';
+
         if( is_array($option) && in_array( $country, $option ) ) {
-            $selected = 'selected';
+            $selected = 'checked';
         }
         printf('<input type="checkbox" name="pqrc_checkbox[]" value="%s" %s /> %s <br>', $country, $selected, $country);
     }
