@@ -55,12 +55,35 @@ function pqrc_settings_init(){
     add_settings_field( 'pqrc_width', __( 'QR Code Width', 'posts-to-qrcode' ), 'pqrc_display_field', 'general', 'pqrc_section', array('pqrc_width') );
     // add_settings_field( 'extra_option', __( 'QR Code Extra', 'posts-to-qrcode' ), 'pqrc_display_field', 'general', 'pqrc_section', array('extra_option') );
     add_settings_field( 'pqrc_select', __( 'Dropdown', 'posts-to-qrcode' ), 'pqrc_display_select_field', 'general', 'pqrc_section' );
+    add_settings_field( 'pqrc_checkbox', __( 'Select Countries', 'posts-to-qrcode' ), 'pqrc_display_checkbocgroup_field', 'general', 'pqrc_section' );
 
     //register_setting( $option_group:string, $option_name:string, $args:array )
     register_setting( 'general', 'pqrc_height', array( 'sanitize_callback' => 'esc_attr' ) );
     register_setting( 'general', 'pqrc_width', array( 'sanitize_callback' => 'esc_attr' ) );
     // register_setting( 'general', 'extra_option', array( 'sanitize_callback' => 'esc_attr' ) );
     register_setting( 'general', 'pqrc_select', array( 'sanitize_callback' => 'esc_attr' ) );
+    register_setting( 'general', 'pqrc_checkbox' );
+}
+
+function pqrc_display_checkbocgroup_field(){
+    $option = get_option('pqrc_checkbox');
+    $countries = array(
+        'None',
+        'Afganistan',
+        'India',
+        'Maldives',
+        'Nepal',
+        'Pakistan',
+        'Sri Lanka'
+    );
+    
+    foreach( $countries as $country ) {
+        $selected = '';
+        if( is_array($option) && in_array( $country, $option ) ) {
+            $selected = 'selected';
+        }
+        printf('<input type="checkbox" name="pqrc_checkbox[]" value="%s" %s /> %s <br>', $country, $selected, $country);
+    }
 }
 
 function pqrc_display_select_field(){
@@ -77,7 +100,9 @@ function pqrc_display_select_field(){
     printf('<select id="%s" name="%s">', 'pqrc_select', 'pqrc_select');
     foreach( $countries as $country ) {
         $selected = '';
-        if( $option == $country ) $selected = 'selected';
+        if( $option == $country ) {
+            $selected = 'selected';
+        }
         printf('<option value="%s" %s>%s</option>', $country, $selected, $country);
     }
     echo "</select>";
