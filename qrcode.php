@@ -23,6 +23,12 @@ $pqrc_countries = array(
     __( 'Sri Lanka', 'posts-to-qrcode' )
 );
 
+function pqrc_init(){
+    global $pqrc_countries;
+    $pqrc_countries = apply_filters( 'pqrc_countries', $pqrc_countries );
+}
+add_action( "init", "pqrc_init" );
+
 //Load Text Domain
 function pqrc_load_textdomain(){
     load_plugin_textdomain( 'posts-to-qrcode', false, dirname(__FILE__) . "/languages" );
@@ -60,7 +66,8 @@ add_filter( 'the_content', 'pqrc_display_qr_code' );
 function pqrc_settings_init(){
     //add_settings_section( $id:string, $title:string, $callback:callable, $page:string );
     add_settings_section( 'pqrc_section', __( 'Posts to QR Code', 'posts-to-qrcode'), "pqrc_section_callback", 'general' );
-//add_settings_field( $id:string, $title:string, $callback:callable, $page:string, $section:string, $args:array );
+
+    //add_settings_field( $id:string, $title:string, $callback:callable, $page:string, $section:string, $args:array );
     add_settings_field( 'pqrc_height', __( 'QR Code Height', 'posts-to-qrcode'), 'pqrc_display_field', 'general', 'pqrc_section', array('pqrc_height') );
     add_settings_field( 'pqrc_width', __( 'QR Code Width', 'posts-to-qrcode' ), 'pqrc_display_field', 'general', 'pqrc_section', array('pqrc_width') );
     // add_settings_field( 'extra_option', __( 'QR Code Extra', 'posts-to-qrcode' ), 'pqrc_display_field', 'general', 'pqrc_section', array('extra_option') );
@@ -76,8 +83,8 @@ function pqrc_settings_init(){
 }
 
 function pqrc_display_checkboxgroup_field(){
+    global $pqrc_countries;
     $option = get_option('pqrc_checkbox');
-    $pqrc_countries = apply_filters( 'pqrc_countries', $pqrc_countries );
 
     foreach( $pqrc_countries as $country ) {
         $selected = '';
@@ -90,8 +97,8 @@ function pqrc_display_checkboxgroup_field(){
 }
 
 function pqrc_display_select_field(){
+    global $pqrc_countries;
     $option = get_option('pqrc_select');
-    $pqrc_countries = apply_filters( 'pqrc_countries', $pqrc_countries );
 
     printf('<select id="%s" name="%s">', 'pqrc_select', 'pqrc_select');
     foreach( $pqrc_countries as $country ) {
