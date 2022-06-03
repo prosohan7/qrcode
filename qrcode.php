@@ -64,15 +64,20 @@ function pqrc_display_qr_code($content){
 add_filter( 'the_content', 'pqrc_display_qr_code' );
 
 function pqrc_settings_init(){
+    //add_settings_section( $id:string, $title:string, $callback:callable, $page:string );
     add_settings_section( 'pqrc_section', __( 'Posts to QR Code', 'posts-to-qrcode'), "pqrc_section_callback", 'general' );
 
+    //add_settings_field( $id:string, $title:string, $callback:callable, $page:string, $section:string, $args:array );
     add_settings_field( 'pqrc_height', __( 'QR Code Height', 'posts-to-qrcode'), 'pqrc_display_field', 'general', 'pqrc_section', array('pqrc_height') );
     add_settings_field( 'pqrc_width', __( 'QR Code Width', 'posts-to-qrcode' ), 'pqrc_display_field', 'general', 'pqrc_section', array('pqrc_width') );
+    // add_settings_field( 'extra_option', __( 'QR Code Extra', 'posts-to-qrcode' ), 'pqrc_display_field', 'general', 'pqrc_section', array('extra_option') );
     add_settings_field( 'pqrc_select', __( 'Dropdown', 'posts-to-qrcode' ), 'pqrc_display_select_field', 'general', 'pqrc_section' );
     add_settings_field( 'pqrc_checkbox', __( 'Select Countries', 'posts-to-qrcode' ), 'pqrc_display_checkboxgroup_field', 'general', 'pqrc_section' );
 
+    //register_setting( $option_group:string, $option_name:string, $args:array )
     register_setting( 'general', 'pqrc_height', array( 'sanitize_callback' => 'esc_attr' ) );
     register_setting( 'general', 'pqrc_width', array( 'sanitize_callback' => 'esc_attr' ) );
+    // register_setting( 'general', 'extra_option', array( 'sanitize_callback' => 'esc_attr' ) );
     register_setting( 'general', 'pqrc_select', array( 'sanitize_callback' => 'esc_attr' ) );
     register_setting( 'general', 'pqrc_checkbox' );
 }
@@ -115,15 +120,13 @@ function pqrc_display_field($args){
     printf( "<input type='text' id='%s' name='%s' value='%s'/>", $args[0], $args[0], $option );
 }
 
-function pqrc_display_width(){
-    $width = get_option( 'pqrc_width' );
-    printf( "<input type='text' id='%s' name='%s' value='%s'/>", 'pqrc_width', 'pqrc_width', $width );
-}
-function pqrc_display_height(){
-    $height = get_option( 'pqrc_height' );
-    printf( "<input type='text' id='%s' name='%s' value='%s'/>", 'pqrc_height', 'pqrc_height', $height );
-}
+// function pqrc_display_width(){
+//     $width = get_option( 'pqrc_width' );
+//     printf( "<input type='text' id='%s' name='%s' value='%s'/>", 'pqrc_width', 'pqrc_width', $width );
+// }
+// function pqrc_display_height(){
+//     $height = get_option( 'pqrc_height' );
+//     printf( "<input type='text' id='%s' name='%s' value='%s'/>", 'pqrc_height', 'pqrc_height', $height );
+// }
 
 add_action( "admin_init", "pqrc_settings_init" );
-
-//this is commect
