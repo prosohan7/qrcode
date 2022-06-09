@@ -73,6 +73,7 @@ function pqrc_settings_init(){
     // add_settings_field( 'extra_option', __( 'QR Code Extra', 'posts-to-qrcode' ), 'pqrc_display_field', 'general', 'pqrc_section', array('extra_option') );
     add_settings_field( 'pqrc_select', __( 'Dropdown', 'posts-to-qrcode' ), 'pqrc_display_select_field', 'general', 'pqrc_section' );
     add_settings_field( 'pqrc_checkbox', __( 'Select Countries', 'posts-to-qrcode' ), 'pqrc_display_checkboxgroup_field', 'general', 'pqrc_section' );
+    add_settings_field( 'pqrc_checkbox', __( 'Select Countries', 'posts-to-qrcode' ), 'pqrc_display_checkboxgroup_field', 'general', 'pqrc_section' );
 
     //register_setting( $option_group:string, $option_name:string, $args:array )
     register_setting( 'general', 'pqrc_height', array( 'sanitize_callback' => 'esc_attr' ) );
@@ -81,7 +82,7 @@ function pqrc_settings_init(){
     register_setting( 'general', 'pqrc_select', array( 'sanitize_callback' => 'esc_attr' ) );
     register_setting( 'general', 'pqrc_checkbox' );
 }
-
+// test
 function pqrc_display_checkboxgroup_field(){
     global $pqrc_countries;
     $option = get_option('pqrc_checkbox');
@@ -130,3 +131,14 @@ function pqrc_display_field($args){
 // }
 
 add_action( "admin_init", "pqrc_settings_init" );
+
+function pqrc_assets($screen) {
+    if ( 'options-general.php' == $screen ) {
+
+        wp_enqueue_style( 'minitoggle-css', plugin_dir_url( __FILE__ ) . "/assets/js/minitoggle.css", true );
+
+        wp_enqueue_script( 'minitoggle-js', plugin_dir_url( __FILE__ ) . "/assets/js/minitoggle.js", array('jquery'), time(), true );
+        wp_enqueue_script( 'pqrc-main-js', plugin_dir_url( __FILE__ ) . "/assets/js/pqrc-main.js", array('jquery'), time(), true );
+    }
+}
+add_action( 'admin_enqueue_scripts', 'pqrc_assets' );
