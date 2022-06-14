@@ -164,11 +164,14 @@ function test_button2( $atts, $content = '' ) {
     return sprintf( '<a target="_blank" class="btn btn--%s full-width" href="%s">%s</a>',
         $button_atts['type'],
         $button_atts['url'],
-        $button_atts['title']
+        $content
     );
 }
 add_shortcode( 'button2', 'test_button2' );
 
-
+function test_uppercase( $atts, $content = '' ){
+    return strtoupper($content);
+}
+add_shortcode( 'uc', 'test_uppercase' );
 
 
