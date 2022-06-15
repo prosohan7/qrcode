@@ -175,3 +175,28 @@ function test_uppercase( $atts, $content = '' ){
 add_shortcode( 'uc', 'test_uppercase' );
 
 
+function test_google_map($atts){
+    $default = array(
+        'place' => 'Dhaka Museum'
+    );
+
+    $params = shortcode_atts($default, $atts);
+
+    $map = 
+        '<div>
+            <div>
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d29186.928981510508!2d90.36077837889393!3d23.87663260973124!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c5d05e7074dd%3A0xd1c58803049f00c7!2sUttara%2C%20Dhaka!5e0!3m2!1sen!2sbd!4v1655255076287!5m2!1sen!2sbd" 
+                    width="600" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>';
+
+    return $map;
+}
+add_shortcode( 'gmap', 'test_google_map' );
